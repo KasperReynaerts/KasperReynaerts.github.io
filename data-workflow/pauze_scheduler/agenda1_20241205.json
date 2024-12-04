@@ -1,0 +1,32 @@
+[
+  {
+    "DTSTART": "20241205T071500Z",
+    "DTEND": "20241205T091500Z",
+    "UID": "200480--532670819-0@timeedit.com",
+    "DTSTAMP": "20241203T215959Z",
+    "LAST-MODIFIED": "20241203T215959Z",
+    "SUMMARY": "PBA-TIN/Classic Computer Science Algorithms\\, Werkvorm: Activerend hoorcollege\\, Lieven Smits",
+    "LOCATION": "GSCHB.4.013 Laptoplokaal",
+    "DESCRIPTION": "ID 200480"
+  },
+  {
+    "DTSTART": "20241205T093000Z",
+    "DTEND": "20241205T113000Z",
+    "UID": "200467--532670819-0@timeedit.com",
+    "DTSTAMP": "20241203T215959Z",
+    "LAST-MODIFIED": "20241203T215959Z",
+    "SUMMARY": "PBA-TIN/Relational Databases & Datawarehousing\\, Werkvorm: Activerend hoorcollege\\, Leendert Blondeel",
+    "LOCATION": "GSCHC.3.013 Lokaal buiten gebruik vanaf semester 2",
+    "DESCRIPTION": "ID 200467"
+  },
+  {
+    "DTSTART": "20241205T123000Z",
+    "DTEND": "20241205T164500Z",
+    "UID": "199676--532670819-0@timeedit.com",
+    "DTSTAMP": "20241203T215959Z",
+    "LAST-MODIFIED": "20241203T215959Z",
+    "SUMMARY": "PBA-TIN/The IT Professional\\, Werkvorm: Activerend hoorcollege\\, Gilles Blondeel\\, Anneleen Bekkens\\, Lena De Mol\\, Femke Cornette\\, Cem Dhondt\\, Eric Verbeiren",
+    "LOCATION": "GSCHB.0.010 BCON\\, GSCHT.1.035 Laptoplokaal",
+    "DESCRIPTION": "ID 199676"
+  }
+]
