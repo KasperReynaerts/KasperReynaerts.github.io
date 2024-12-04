@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Variabelen
-ics_link1="https://cloud.timeedit.net/be_hogent/web/student/ri6765Q0ZuY9u1Q5QtQn55B8ZQ1Qy55dZQ168Z856655CwtZAEFZB18C8603D31164E6369EF9915B0.ics"
-ics_link2="https://cloud.timeedit.net/be_hogent/web/student/ri6887Q6ZuY9u1Q6QtQn5619ZQ3Qy57dZQ868Z8567557wtZ89DZ3D454451B0A42DE7156CFF7C2D.ics"
-
-project_dir="./pauze_scheduler"
-
-tomorrow="$(date -d "tomorrow" +%Y%m%d)"
-
-Github_username="KasperReynaerts"
-
-repo_path="./${Github_username}.github.io/" 
-
-
 # Controleer op vereiste tools
 echo "Controleer of vereiste tools beschikbaar zijn..."
 if ! command -v ical2json &> /dev/null; then
@@ -29,18 +16,19 @@ else
     echo "jq is geïnstalleerd."
 fi
 
+# Vraag om ICS-links
+ics_link1="https://cloud.timeedit.net/be_hogent/web/student/ri6765Q0ZuY9u1Q5QtQn55B8ZQ1Qy55dZQ168Z856655CwtZAEFZB18C8603D31164E6369EF9915B0.ics"
+ics_link2="https://cloud.timeedit.net/be_hogent/web/student/ri6887Q6ZuY9u1Q6QtQn5619ZQ3Qy57dZQ868Z8567557wtZ89DZ3D454451B0A42DE7156CFF7C2D.ics"
 
 # Projectdirectory instellen
+project_dir="./pauze_scheduler"
 mkdir -p "$project_dir"
 echo "Projectdirectory ingesteld: $project_dir"
 
 # Download ICS-bestanden
 echo "ICS-bestanden downloaden..."
 curl -s -o "$project_dir/agenda1.ics" "$ics_link1"
-chmod 444 "$project_dir/agenda1.ics"
 curl -s -o "$project_dir/agenda2.ics" "$ics_link2"
-chmod 444 "$project_dir/agenda2.ics"
-
 
 # Controleer of downloads gelukt zijn
 if [[ ! -s "$project_dir/agenda1.ics" || ! -s "$project_dir/agenda2.ics" ]]; then
@@ -53,9 +41,7 @@ fi
 # Converteer ICS naar JSON
 echo "Converteer ICS naar JSON..."
 ical2json "$project_dir/agenda1.ics" > "$project_dir/agenda1.json"
-chmod 444 "$project_dir/agenda1.json"
 ical2json "$project_dir/agenda2.ics" > "$project_dir/agenda2.json"
-chmod 444 "$project_dir/agenda2.json"
 
 # Controleer of de JSON-bestanden correct zijn
 if [[ ! -s "$project_dir/agenda1.json" || ! -s "$project_dir/agenda2.json" ]]; then
@@ -66,6 +52,7 @@ else
 fi
 
 # Filter de agenda voor morgen
+tomorrow="$(date -d "tomorrow" +%Y%m%d)"
 echo "Filter de agenda voor de datum: $tomorrow"
 for i in 1 2
 do
@@ -176,41 +163,13 @@ fi
 new_start=$(echo "$common_gap" | jq -r '.common_start')
 new_end=$(echo "$common_gap" | jq -r '.common_end')
 
-
+# Repository instellingen
+repo_path="./KasperReynaerts.github.io" 
 
 # Maak de nieuwe agenda aan (alleen als de gap is gevonden)
 if [[ "$common_gap" != "null" && -n "$common_gap" ]]; then
 
   # Check de repository status
-
-  # URL van de submodule en doelpad
-  SUBMODULE_URL="https://github.com/${Github_username}/${Github_username}.github.io.git"
-
-  echo "Submodule toevoegen..."
-  if git submodule add "$SUBMODULE_URL" "$repo_path" 2>/dev/null; then
-    echo "Submodule succesvol toegevoegd: $repo_path"
-  else
-    echo "Submodule al toegevoegd of fout opgetreden."
-    echo "Controleren of de submodule correct is ingesteld..."
-    if [ -d "$repo_path" ]; then
-        echo "Submodule-directory bestaat: $repo_path"
-        git submodule update --init --recursive
-        echo "Submodule geïnitialiseerd en bijgewerkt."
-    else
-        echo "Submodule-directory ontbreekt. Controleer de URL of paden."
-        exit 1
-    fi
-  fi
-
-# Controleren of de submodule werkt
-if git ls-remote "$SUBMODULE_URL" &>/dev/null; then
-    echo "Submodule-repository bereikbaar."
-else
-    echo "Submodule-repository niet bereikbaar. Controleer de URL of netwerkverbinding."
-    exit 1
-fi
-
-
     cd "$repo_path" || exit
     echo "Navigeren naar de repository..."
 
